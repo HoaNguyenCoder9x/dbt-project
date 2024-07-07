@@ -1,0 +1,1 @@
+export DUCKDB_PATH='/mnt/c/Users/hoang/Desktop/Storage_Location/KC/datalake.db'

@@ -1,0 +1,21 @@
+select 
+	 gba
+	,region 
+	,main_account 
+	,sub_account 
+	,province 
+	,sub_area 
+	,key_cities 
+	,sitecode 
+	,convert_code 
+	,status 
+	,start_date 
+	,closed_date 
+	,distributor_name 
+	,distributor_name_short_vn 
+	,convert_distributor_name 
+	,area 
+	,coverage_area 
+	,office_adress 
+	,warehouse_address 
+from {{ source('my_source', 'distributor_infor_tbl') }}

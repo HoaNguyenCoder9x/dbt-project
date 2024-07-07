@@ -1,0 +1,30 @@
+-- {{ config(materialized='table') }}
+
+
+select DISTINCT 
+	TERRITORY4_CD 
+	,CUST_CD 
+	,DIST_CD 
+	,CUST_NAME
+	,CUST_NAME2 
+	,CUST_OPENDT 
+	,CUST_STATUS_DESC 
+	,CHANNEL 
+	,CATEGORY 
+	,CLASSIFICATION 
+	,KEY_ACCOUNT_GROUP 
+	,ADDR_1 
+	,ADDR_2 
+	,ADDR_3 
+	,ADDR_4 
+	,ADDR_5 
+	,SLSMAN_DESC 
+	,SPLIT_PART(SLSMAN_DESC,'-',1) AS ROUTE_CODE
+	,SPLIT_PART(SLSMAN_DESC,'-',2) AS ROUTE_NAME
+	,LONGITUDE
+	,LATITUDE
+	
+	
+from {{ source('my_source', 'customer_dim_tbl') }} 
+WHERE SLSMAN_DESC  NOT LIKE '%MER%'
+

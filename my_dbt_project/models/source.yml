@@ -1,0 +1,36 @@
+sources:
+  - name: my_source
+ 
+    database: datalake
+    schema: raw
+
+
+
+    tables:
+      - name: invoice_header_tbl
+        identifier: invoice_header
+        freshness: # default freshness
+          warn_after: {count: 1, period: day}
+          error_after: {count: 2, period: day}
+        
+          filter: datediff('day', invoice_date, current_timestamp) < 2 #add filter to reduce data load when check freshness , syntax dbt source freshness
+        loaded_at_field: invoice_date::timestamp
+
+
+      - name: invoice_dtl_tbl
+        identifier: invoice_dtl
+
+      - name: invoice_return_tbl
+        identifier: invoice_return
+
+      - name: sku_list_tbl
+        identifier: sku_list
+
+      - name: customer_dim_tbl
+        identifier: customer_dim
+
+      - name: salesman_infor_tbl
+        identifier: salesman_infor
+
+      - name: distributor_infor_tbl
+        identifier: distributor_infor

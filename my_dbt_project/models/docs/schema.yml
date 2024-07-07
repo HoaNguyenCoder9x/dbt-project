@@ -1,0 +1,71 @@
+models:
+  # LEVEL TABLE
+  - name: cons_tbl_customer_dim
+    description: Current customer in DMS System
+    columns:
+      - name: CUST_CD
+        description: '{{ doc("customer_code") }}'
+        tests:
+          - unique
+          - not_null
+          - generic_not_null #generic test
+          - check_duplicate #generic test
+      - name: ROUTE_CODE
+        description: '{{ doc("route_code") }}'
+      - name: ROUTE_NAME
+        description: Salesman name
+      - name: DIST_CD
+        description: '{{ doc("distributor_code") }}'
+      - name: CUST_STATUS_DESC
+        description: Customer status
+        tests:
+          - accepted_values:
+              values: ["Active", "Inactive"]
+
+  - name: cons_tbl_invoice_combined
+    description: sales invoice data in DMS
+    columns:
+ 
+      - name: return_date
+        description: return date
+      - name: total_net_amount
+        description: sales amount
+
+      - name: customer_code
+        description: '{{ doc("customer_code") }}'
+        tests:
+          - relationships:
+              to: ref('cons_tbl_customer_dim')
+              field: CUST_CD
+
+      - name: distributor_code
+        description: '{{ doc("distributor_code") }}'
+        tests:
+          - relationships:
+              to: ref('cons_tbl_distributor_dim')
+              field: sitecode
+      - name: product_code
+        description: '{{ doc("product_code") }}'
+        tests:
+          - relationships:
+              to: ref('cons_tbl_product_dim')
+              field: productcode
+
+  - name: cons_tbl_salesman_dim
+    description: Salesman information
+    columns:
+      - name: sitecode
+        description: '{{ doc("distributor_code") }}'
+      - name: route_code_accenture
+        tests:
+          - check_duplicate
+
+  # LEVEL VIEW
+  - name: vw_sales_by_date
+    description: Revenue by date
+    columns:
+      - name: total_net_amount
+        description: Amount in VND
+
+      - name: invoice_date
+        description: sales by date
